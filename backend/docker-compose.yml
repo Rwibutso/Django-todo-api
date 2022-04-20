@@ -1,0 +1,22 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: serge
+      POSTGRES_DB: project1db
+      POSTGRES_PASS: securep@wd
+    volumes:
+      - pgdata:/var/lib/posgresql/data
+  backend:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./code
+    command: python manage.py runserver 127.0.0.1:8000
+    depends_on:
+      - db
+volumes:
+  pgdata:
